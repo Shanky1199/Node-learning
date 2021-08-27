@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient;
 var url = 'mongodb://localhost/practice';
 
-const getData = require('../User_auth_api/app/api/external.api') 
+const parse_Api = require('../api/external.api') 
 //console.log(data,"this is the data in database code")
 
 
@@ -12,9 +12,18 @@ async function run() {
     await client.connect();
     const database = client.db("practice");
     const users = database.collection("users");
+    
     const options = { ordered: true };
-    const data = await getData()
+    const data = await parse_Api()
     console.log(data)
+    /*
+
+      here i should add the code to parse the external api data to add to the database.
+
+            // take the data and form it according to the schema and give request.
+
+            // i have to give user Roles before updating in the database
+    */
     const result = await users.insertMany(data, options);
     console.log(`${result.insertedCount} documents were inserted`);
   } finally {
