@@ -4,10 +4,16 @@ exports.allAccess = (req, res) => {
 
 exports.userBoard = (req, res) => {
   res.status(200).send("User Content.");
+
+  //input username 
+  //username if roles (user)
 };
 
 exports.adminBoard = (req, res) => {
   res.status(200).send("Admin Content.");
+
+  //username is having admin
+  
 };
 
 exports.moderatorBoard = (req, res) => {
