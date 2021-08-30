@@ -1,4 +1,9 @@
 const axios = require('axios');
+const config = require("../config/auth.config");
+const db = require("../models");
+const { user: User, role: Role, refreshToken: RefreshToken } = db;
+
+
 
 const bcrypt = require("bcryptjs");
 
@@ -28,7 +33,8 @@ async function parse_Api(){
         const item = {
             username: data[i].first_name,
             email: data[i].email,
-            password: bcrypt.hashSync(data[i].last_name,8)
+            password:bcrypt.hashSync(data[i].last_name,8),
+            roles:['user']
         }
 
         api_list.push(item)
@@ -36,9 +42,83 @@ async function parse_Api(){
     }
 
     return api_list // [ {},{},{} ]
-
-
 }
+
+const external_signup = (req) => {
+    const user = new User({
+      username: req.username,
+      email: req.email,
+      password: bcrypt.hashSync(req.password, 8),
+    });
+  
+    user.save((err, user) => {
+      if (err) {
+        //res.status(500).send({ message: err });
+        console.log(err)
+        return;
+      }
+  
+      if (req.body.roles) {
+        Role.find(
+          {
+            name: { $in: req.roles },
+          },
+          (err, roles) => {
+            if (err) {
+              //res.status(500).send({ message: err });
+              console.log(err)
+              return;
+            }
+  
+            user.roles = roles.map((role) => role._id);
+            user.save((err) => {
+              if (err) {
+                //res.status(500).send({ message: err });
+                console.log(err)
+                return;
+              }
+  
+             // res.send({ message: "User was registered successfully!" });
+             console.log('User was registered successfully')
+            });
+          }
+        );
+      } else {
+        Role.findOne({ name: "user" }, (err, role) => {
+          if (err) {
+            //res.status(500).send({ message: err });
+            console.log(err)
+            return;
+          }
+  
+          user.roles = [role._id];
+          user.save((err) => {
+            if (err) {
+              //res.status(500).send({ message: err });
+              console.log(err)
+              return;
+            }
+  
+            //res.send({ message: "User was registered successfully!" });
+            console.log('User was registered successfuly')
+          });
+        });
+      }
+    });
+  };
+
+  const addAll=async ( )=>{
+
+        var arr = await parse_Api()
+
+        for (let i=0 ;i<arr.length;i++){
+            external_signup(arr[i])
+
+        }
+
+        
+
+  }
 
 
 

@@ -1,3 +1,5 @@
+const run = require('../api/external.db')
+
 const allAccess = (req, res) => {
   res.status(200).send("Public Content.");
 };
@@ -20,10 +22,20 @@ const moderatorBoard = (req, res) => {
   res.status(200).send("Moderator Content.");
 };
 
+const external_api = async(req, res) => {
+
+  run.run().then(res.status(200).send("Added all the users")).catch(
+    res.status(400).send("Error")
+  )
+  
+
+};
+
 
 module.exports = {
   allAccess,
   userBoard,
   adminBoard,
-  moderatorBoard
+  moderatorBoard,
+  external_api
 }
