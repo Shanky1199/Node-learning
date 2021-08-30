@@ -1,5 +1,5 @@
 module.exports = {
   secret: "shashank-secret-key",
-  jwtExpiration: 60,          // 1 minute
-  jwtRefreshExpiration: 120,  // 2 minutes
+  jwtExpiration: 3600,          // 1 hour
+  jwtRefreshExpiration: 86400,  // 2 minutes
 };
