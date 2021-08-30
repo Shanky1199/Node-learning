@@ -1,5 +1,5 @@
 var MongoClient = require('mongodb').MongoClient;
-var url = 'mongodb://localhost/practice';
+var url = 'mongodb://localhost/practice_db';
 
 const parse_Api = require('../api/external.api') 
 //console.log(data,"this is the data in database code")
@@ -7,11 +7,11 @@ const parse_Api = require('../api/external.api')
 
 
 const client = new MongoClient(url);
-async function run() {
+async function run( ) {
   try {
     await client.connect();
-    const database = client.db("practice");
-    const users = database.collection("users");
+    const database = client.db("practice_db");
+    const users = database.collection("external_users");
     
     const options = { ordered: true };
     const data = await parse_Api()
@@ -28,6 +28,11 @@ async function run() {
     console.log(`${result.insertedCount} documents were inserted`);
   } finally {
     await client.close();
+    //res.status(200).send("Moderator Content.");
   }
 }
-run().catch(console.dir);
+//run().catch(console.dir);
+
+module.exports= {
+  run
+}
