@@ -5,7 +5,7 @@ const { user: User, role: Role, refreshToken: RefreshToken } = db;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
-exports.signup = (req, res) => {
+const signup = (req, res) => {
   const user = new User({
     username: req.body.username,
     email: req.body.email,
@@ -117,7 +117,7 @@ const signIn = (req, res) => {
 // generate the access token .
 //auth controller js
 
-exports.refreshToken = async (req, res) => {
+const refreshToken = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
 
   if (requestToken == null) {
@@ -157,5 +157,7 @@ exports.refreshToken = async (req, res) => {
 
 
 module.exports={
-  signIn 
+  signIn,
+  refreshToken,
+  signup
 }
