@@ -14,6 +14,7 @@ module.exports = function(app) {
 
   app.get("/api/test/user", [authJwt.verifyToken], controller.userBoard);
   app.get("/api/test/external", controller.external_api);
+  app.post("/api/test/send_email", controller.sendMail);
   
 
   app.get(
