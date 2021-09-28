@@ -16,3 +16,9 @@ const User = mongoose.model(
 );
 
 module.exports = User;
+
+
+//   ['user',admin, quiz creater]
+
+
+// [{}]
